@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/songloft-org/plugin-toolchain/main/schemas/plugin.schema.json",
   "name": "电台导入",
-  "version": "1.0.0",
+  "version": "2026.6.22",
   "description": "从 M3U/M3U8 播放列表文件导入电台到 Songloft",
   "author": "Songloft Team",
   "homepage": "https://github.com/songloft-org/songloft-plugin-radio",
@@ -15,7 +15,7 @@
     "playlists.read"
   ],
   "updateUrl": "https://github.com/songloft-org/songloft-plugin-radio/raw/main/plugin.json",
-  "download_url": "https://github.com/songloft-org/songloft-plugin-radio/releases/latest/download/radio.jsplugin.zip",
+  "download_url": "https://github.com/songloft-org/songloft-plugin-radio/releases/download/v2026.6.22/radio.jsplugin.zip",
   "entryHash": "",
   "zipHash": ""
 }
