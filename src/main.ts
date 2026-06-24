@@ -2,6 +2,8 @@
 import { jsonResponse, createRouter, parseQuery } from '@songloft/plugin-sdk';
 import { parseM3U } from './m3u-parser';
 
+const MAX_CONTENT_SIZE = 20 * 1024 * 1024; // 20MB
+
 const router = createRouter();
 
 router.post('/api/parse', async (req) => {
@@ -17,8 +19,8 @@ router.post('/api/parse', async (req) => {
     return jsonResponse({ error: '缺少 content 字段' }, 400);
   }
 
-  if (content.length > 5 * 1024 * 1024) {
-    return jsonResponse({ error: '内容超过 5MB 限制' }, 400);
+  if (content.length > MAX_CONTENT_SIZE) {
+    return jsonResponse({ error: '内容超过 20MB 限制' }, 400);
   }
 
   const result = parseM3U(content);
@@ -59,8 +61,8 @@ router.post('/api/fetch-url', async (req) => {
 
     const text = await resp.text();
 
-    if (text.length > 5 * 1024 * 1024) {
-      return jsonResponse({ error: '文件超过 5MB 限制' }, 400);
+    if (text.length > MAX_CONTENT_SIZE) {
+      return jsonResponse({ error: '文件超过 20MB 限制' }, 400);
     }
 
     return jsonResponse({ content: text });

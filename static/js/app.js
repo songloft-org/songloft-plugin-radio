@@ -3,6 +3,7 @@
 
   var P = window.SongloftPlugin;
   var MAIN_API = '/api/v1';
+  var MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
   var parsedStations = [];
   var selectedSet = new Set();
@@ -103,8 +104,8 @@
     if (!file) return;
     fileName.textContent = file.name;
 
-    if (file.size > 5 * 1024 * 1024) {
-      showSnack('文件超过 5MB 限制', 'error');
+    if (file.size > MAX_FILE_SIZE) {
+      showSnack('文件超过 20MB 限制', 'error');
       return;
     }
 
