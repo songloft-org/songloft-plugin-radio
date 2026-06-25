@@ -144,3 +144,63 @@ export function parseM3U(content: string): ParseResult {
 
   return { stations, errors };
 }
+
+export function parseJSON(content: string): ParseResult {
+  const errors: string[] = [];
+  const stations: ParsedStation[] = [];
+  const seenUrls = new Set<string>();
+
+  try {
+    const data = JSON.parse(content);
+    const items = data.items || data;
+
+    if (!Array.isArray(items)) {
+      return { stations: [], errors: ['JSON 格式不正确：缺少 items 数组'] };
+    }
+
+    for (const item of items) {
+      const url = (item.url || '').trim();
+      if (!url || !isValidUrl(url)) continue;
+      if (seenUrls.has(url)) continue;
+      seenUrls.add(url);
+
+      let title = (item.name || item.title || '').trim();
+      let artist = (item.artist || '').trim();
+
+      if (!title) {
+        title = titleFromUrl(url);
+      } else if (!artist && title.includes(' - ')) {
+        const parts = title.split(' - ');
+        artist = parts[0].trim();
+        title = parts.slice(1).join(' - ').trim();
+      }
+
+      stations.push({
+        url,
+        title,
+        artist,
+        logo: (item.logo || item.cover_url || '').trim(),
+        group: (item.group || item.group_title || item.category || '').trim(),
+      });
+    }
+  } catch {
+    return { stations: [], errors: ['JSON 解析失败，请确认格式正确'] };
+  }
+
+  if (stations.length === 0 && errors.length === 0) {
+    errors.push('未找到有效的电台 URL');
+  }
+
+  return { stations, errors };
+}
+
+export function isJSONContent(content: string): boolean {
+  const trimmed = content.trim();
+  if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) return false;
+  try {
+    JSON.parse(trimmed);
+    return true;
+  } catch {
+    return false;
+  }
+}

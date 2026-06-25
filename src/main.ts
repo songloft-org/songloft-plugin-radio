@@ -1,6 +1,6 @@
 /// <reference types="@songloft/plugin-sdk" />
-import { jsonResponse, createRouter, parseQuery } from '@songloft/plugin-sdk';
-import { parseM3U } from './m3u-parser';
+import {jsonResponse, createRouter, parseQuery, HTTPRequest} from '@songloft/plugin-sdk';
+import { parseM3U, parseJSON, isJSONContent } from './m3u-parser';
 
 const MAX_CONTENT_SIZE = 20 * 1024 * 1024; // 20MB
 
@@ -23,7 +23,7 @@ router.post('/api/parse', async (req) => {
     return jsonResponse({ error: '内容超过 20MB 限制' }, 400);
   }
 
-  const result = parseM3U(content);
+  const result = isJSONContent(content) ? parseJSON(content) : parseM3U(content);
   return jsonResponse(result);
 });
 
@@ -56,7 +56,7 @@ router.post('/api/fetch-url', async (req) => {
     const headers = resp.headers as unknown as Record<string, string>;
     const contentType = headers['content-type'] || headers['Content-Type'] || '';
     if (contentType.includes('text/html') && !url.match(/\.m3u8?$/i)) {
-      return jsonResponse({ error: 'URL 返回的是 HTML 页面，请确认是 M3U 文件的直接链接' }, 400);
+      return jsonResponse({ error: 'URL 返回的是 HTML 页面，请确认是 M3U/JSON 文件的直接链接' }, 400);
     }
 
     const text = await resp.text();

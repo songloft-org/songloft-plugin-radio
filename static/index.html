@@ -16,7 +16,7 @@
             </div>
             <div class="card-body">
                 <div class="import-row">
-                    <input type="file" id="fileInput" accept=".m3u,.m3u8,.txt" hidden>
+                    <input type="file" id="fileInput" accept=".m3u,.m3u8,.json,.txt" hidden>
                     <button class="btn-outlined" id="btn-file">
                         <span class="material-symbols-outlined">upload_file</span>
                         选择文件
@@ -27,7 +27,7 @@
                 <div class="import-row">
                     <div class="text-field-wrapper" style="flex:1">
                         <span class="material-symbols-outlined">link</span>
-                        <input type="text" id="urlInput" placeholder="输入 M3U/M3U8 文件 URL...">
+                        <input type="text" id="urlInput" placeholder="输入 M3U/M3U8/JSON 文件 URL...">
                     </div>
                     <button class="btn-filled btn-sm" id="btn-fetch">
                         <span class="material-symbols-outlined">download</span>
@@ -35,10 +35,12 @@
                     </button>
                 </div>
                 <div class="form-hint">
-                    支持 .m3u / .m3u8 格式的电台频道列表。
+                    支持 M3U / M3U8 / JSON 格式的电台频道列表。
                     找不到电台资源？试试
                     <a href="https://github.com/junguler/m3u-radio-music-playlists" target="_blank" rel="noopener">
-                        m3u-radio-music-playlists</a>，复制文件的 Raw URL 粘贴到上方即可导入。
+                        m3u-radio-music-playlists</a>（M3U 格式）或
+                    <a href="https://junguler.github.io/m3u-player-web" target="_blank" rel="noopener">
+                        m3u-player-web</a> 搜索（电台列表页顶部「Source」地址），复制 URL 粘贴到上方即可导入。
                 </div>
             </div>
         </div>
